@@ -5,10 +5,8 @@ use basalt_tui::app::App;
 
 fn main() -> io::Result<()> {
     let mut terminal = ratatui::init();
-    let obsidian_config = obsidian::config::load().unwrap();
-    let mut vaults: Vec<&Vault> = obsidian_config.vaults();
 
-    // Check for vault path argument
+    // Check for vault path argument first
     if let Some(vault_path) = env::args().nth(1) {
         let path = PathBuf::from(&vault_path);
         if path.exists() && path.is_dir() {
@@ -23,11 +21,30 @@ fn main() -> io::Result<()> {
                 open: true,
                 ts: 0,
             };
-            // Can't return owned Vault from here easily, so we'll use a Box
-            let owned_vault = Box::new(vault);
-            vaults = vec![Box::leak(owned_vault)];
+            // Leak the vault so it lives for the lifetime needed
+            let vaults: Vec<&Vault> = vec![Box::leak(Box::new(vault))];
+            terminal.show_cursor()?;
+            App::start(terminal, vaults)?;
+            ratatui::restore();
+            return Ok(());
         }
     }
+
+    // No valid vault path, try obsidian config
+    let vaults: Vec<&Vault> = match obsidian::config::load() {
+        Ok(config) => {
+            // Convert owned vaults to leaked references
+            config
+                .vaults()
+                .into_iter()
+                .map(|v| {
+                    let leaked: &Vault = Box::leak(Box::new((*v).clone()));
+                    leaked
+                })
+                .collect()
+        }
+        Err(_) => Vec::new(),
+    };
 
     terminal.show_cursor()?;
 
