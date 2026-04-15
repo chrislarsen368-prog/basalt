@@ -224,11 +224,15 @@ impl<'a> App<'a> {
         let size = terminal.size()?;
         let (config, warnings) = config::load().unwrap();
 
+        // If only one vault is provided, skip the splash screen and open it directly
+        let single_vault = vaults.len() == 1;
+        let auto_open = single_vault;
+
         let state = AppState {
             screen_size: size,
             help_modal: HelpModalState::new(&help_text(&version)),
             vault_selector_modal: VaultSelectorModalState::new(vaults.clone()),
-            splash_modal: SplashModalState::new(&version, vaults, true),
+            splash_modal: SplashModalState::new(&version, vaults, !auto_open),
             outline: {
                 let mut outline = OutlineState {
                     symbols: config.symbols.clone(),
