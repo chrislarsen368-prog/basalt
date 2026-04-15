@@ -258,12 +258,16 @@ impl<'a> App<'a> {
         // If auto_open, trigger vault opening immediately
         if let Some(vault) = vault_ref {
             let msg = Message::OpenVault(vault);
-            App::update(
-                app.terminal.get_mut(),
-                &app.config,
-                &mut app.state,
-                Some(msg),
-            );
+            // Keep processing messages until no more are returned
+            let mut next_msg = Some(msg);
+            while let Some(msg) = next_msg {
+                next_msg = App::update(
+                    app.terminal.get_mut(),
+                    &app.config,
+                    &mut app.state,
+                    Some(msg),
+                );
+            }
         }
 
         app.run()
