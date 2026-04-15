@@ -101,6 +101,8 @@
 # Editor is experimental
 experimental_editor = false
 vim_mode = false
+# Show outline pane on startup (true = visible, false = hidden)
+show_outline = true
 
 [symbols]
 preset = "unicode"

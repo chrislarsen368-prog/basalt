@@ -173,6 +173,10 @@ impl OutlineState {
         self.open = true;
     }
 
+    pub fn set_open(&mut self, open: bool) {
+        self.open = open;
+    }
+
     pub fn close(&mut self) {
         self.open = false;
     }

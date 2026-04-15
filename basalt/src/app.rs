@@ -229,9 +229,13 @@ impl<'a> App<'a> {
             help_modal: HelpModalState::new(&help_text(&version)),
             vault_selector_modal: VaultSelectorModalState::new(vaults.clone()),
             splash_modal: SplashModalState::new(&version, vaults, true),
-            outline: OutlineState {
-                symbols: config.symbols.clone(),
-                ..Default::default()
+            outline: {
+                let mut outline = OutlineState {
+                    symbols: config.symbols.clone(),
+                    ..Default::default()
+                };
+                outline.set_open(config.show_outline);
+                outline
             },
             toasts: warnings
                 .into_iter()

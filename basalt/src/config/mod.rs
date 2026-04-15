@@ -86,6 +86,7 @@ impl fmt::Display for ConfigSection<'_> {
 pub struct Config<'a> {
     pub experimental_editor: bool,
     pub vim_mode: bool,
+    pub show_outline: bool,
     pub symbols: Symbols,
     pub global: ConfigSection<'a>,
     pub splash: ConfigSection<'a>,
@@ -109,6 +110,7 @@ impl From<TomlConfig> for Config<'_> {
             symbols: value.symbols.into(),
             experimental_editor: value.experimental_editor,
             vim_mode: value.vim_mode,
+            show_outline: value.show_outline,
             global: value.global.into(),
             splash: value.splash.into(),
             explorer: value.explorer.into(),
@@ -139,6 +141,7 @@ impl Config<'_> {
         self.symbols = config.symbols;
         self.experimental_editor = config.experimental_editor;
         self.vim_mode = config.vim_mode;
+        self.show_outline = config.show_outline;
         self.global.merge_key_bindings(config.global);
         self.explorer.merge_key_bindings(config.explorer);
         self.splash.merge_key_bindings(config.splash);
@@ -232,6 +235,8 @@ struct TomlConfig {
     experimental_editor: bool,
     #[serde(default)]
     vim_mode: bool,
+    #[serde(default)]
+    show_outline: bool,
     #[serde(default)]
     global: TomlConfigSection,
     #[serde(default)]
