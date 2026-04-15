@@ -513,6 +513,7 @@ impl<'a> App<'a> {
                 state.vault = vault.clone();
                 state.explorer = ExplorerState::new(&vault.name, vault.entries(), &config.symbols);
                 state.note_editor = NoteEditorState::default();
+                state.splash_modal.hide();
                 return Some(Message::SetActivePane(ActivePane::Explorer));
             }
             Message::SelectNote(selected_note) => {
