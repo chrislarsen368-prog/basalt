@@ -225,14 +225,13 @@ impl<'a> App<'a> {
         let (config, warnings) = config::load().unwrap();
 
         // If only one vault is provided, skip the splash screen and open it directly
-        let single_vault = vaults.len() == 1;
-        let auto_open = single_vault;
+        let auto_open = vaults.len() == 1;
 
         let state = AppState {
             screen_size: size,
             help_modal: HelpModalState::new(&help_text(&version)),
             vault_selector_modal: VaultSelectorModalState::new(vaults.clone()),
-            splash_modal: SplashModalState::new(&version, vaults, !auto_open),
+            splash_modal: SplashModalState::new(&version, vaults.clone(), !auto_open),
             outline: {
                 let mut outline = OutlineState {
                     symbols: config.symbols.clone(),
@@ -248,7 +247,26 @@ impl<'a> App<'a> {
             ..Default::default()
         };
 
-        App::new(state, config, terminal).run()
+        let vault_ref = if auto_open {
+            vaults.first().copied()
+        } else {
+            None
+        };
+
+        let mut app = App::new(state, config, terminal);
+
+        // If auto_open, trigger vault opening immediately
+        if let Some(vault) = vault_ref {
+            let msg = Message::OpenVault(vault);
+            App::update(
+                app.terminal.get_mut(),
+                &app.config,
+                &mut app.state,
+                Some(msg),
+            );
+        }
+
+        app.run()
     }
 
     fn run(&'a mut self) -> Result<()> {

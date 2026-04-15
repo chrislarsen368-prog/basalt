@@ -132,7 +132,7 @@ key_bindings = [
  { key = "up", command = "explorer_up" },
  { key = "down", command = "explorer_down" },
  { key = "t", command = "explorer_toggle" },
- { key = "h", command = "explorer_hide_pane" },
+ { key = "left", command = "explorer_hide_pane" },
  { key = "right", command = "explorer_expand_pane" },
  { key = "s", command = "explorer_sort" },
  { key = "n", command = "explorer_new_untitled_note" },
@@ -142,6 +142,9 @@ key_bindings = [
  { key = "shift+backtab", command = "explorer_switch_pane_previous" },
  { key = "enter", command = "explorer_open" },
  { key = "l", command = "explorer_open" },
+ { key = "h", command = "explorer_switch_pane_previous" },
+ { key = "shift+l", command = "explorer_switch_pane_next" },
+ { key = "shift+h", command = "explorer_switch_pane_previous" },
  { key = "ctrl+b", command = "explorer_toggle" },
  { key = "ctrl+u", command = "explorer_scroll_up_half_page" },
  { key = "ctrl+d", command = "explorer_scroll_down_half_page" },
@@ -180,6 +183,8 @@ key_bindings = [
  { key = "ctrl+o", command = "note_editor_toggle_outline" },
  { key = "ctrl+shift+up", command = "note_editor_scroll_to_top" },
  { key = "ctrl+shift+down", command = "note_editor_scroll_to_bottom" },
+ { key = "shift+h", command = "note_editor_switch_pane_previous" },
+ { key = "shift+l", command = "note_editor_switch_pane_next" },
 
  # Experimental editor 
  { key = "i", command = "note_editor_experimental_set_edit_view" },
