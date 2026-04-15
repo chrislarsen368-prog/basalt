@@ -160,8 +160,6 @@ key_bindings = [
  { key = "ctrl+o", command = "outline_toggle" },
  { key = "ctrl+b", command = "outline_toggle_explorer" },
  { key = "t", command = "outline_toggle_explorer" },
- { key = "tab", command = "outline_switch_pane_next" },
- { key = "shift+backtab", command = "outline_switch_pane_previous" },
  { key = "enter", command = "outline_expand" },
  { key = "g", command = "outline_select" },
  { key = "ctrl+shift+up", command = "explorer_scroll_to_top" },

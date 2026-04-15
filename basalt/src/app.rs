@@ -475,6 +475,9 @@ impl<'a> App<'a> {
                     }
                 }
                 ActivePane::Outline => {
+                    if !state.outline.is_open() {
+                        return Some(Message::SetActivePane(ActivePane::Explorer));
+                    }
                     state.active_pane = active_pane;
                     // TODO: use event/message
                     state.outline.set_active(true);
