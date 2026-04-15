@@ -608,14 +608,16 @@ impl<'a> App<'a> {
             if state.outline.is_open() {
                 Constraint::Length(35)
             } else {
-                Constraint::Length(4)
+                Constraint::Length(0)
             },
         ])
         .areas(content);
 
         Explorer::new().render(explorer_pane, buf, &mut state.explorer);
         NoteEditor::default().render(note, buf, &mut state.note_editor);
-        Outline.render(outline, buf, &mut state.outline);
+        if state.outline.is_open() {
+            Outline.render(outline, buf, &mut state.outline);
+        }
         let border_modal = self.config.symbols.border_modal.into();
         Input::new(border_modal).render(area, buf, &mut state.input_modal);
 
